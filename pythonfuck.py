@@ -3,9 +3,6 @@
 """
 A simple interpreter for the brainfuck programming language.
 
-known Bugs:
-	- you can only input one character at a time
-
 ToDo:
 	- add support for more input ways (via pipe)
 	- bugfixing
@@ -64,6 +61,7 @@ class Pythonfuck():
 
 		self.pointer = 0
 		self.field = [0, ]
+		self.inputstr = ""
 
 		parser = argparse.ArgumentParser(description='Input some valid Brainfuck code.')
 		parser.add_argument('--bf', '-b', type=str, dest='bfcode',
@@ -108,11 +106,14 @@ class Pythonfuck():
 			sys.stdout.write(chr(self.field[self.pointer]))
 
 	def getChar(self, code):
-		char = raw_input("Input: ")
-		if char == "":
+		if self.inputstr == "":
+			char = raw_input("Input: ")
+			self.inputstr += char
+		if self.inputstr == "":
 			self.field[self.pointer] = 0
 		else:
-			self.field[self.pointer] = ord(char)
+			self.field[self.pointer] = ord(self.inputstr[0])
+			self.inputstr = self.inputstr[1:]
 	
 	def bWhile(self, code):
 		loopcount = 0
