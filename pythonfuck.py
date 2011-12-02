@@ -84,6 +84,8 @@ class Pythonfuck():
 			if os.path.isfile(args.filename):
 				f = open(args.filename)
 				self.runCode(f.read())
+		else:
+			self.runInteractive()
 
 	def incrPointer(self, code):
 		if len(self.field)-1 <= self.pointer:
