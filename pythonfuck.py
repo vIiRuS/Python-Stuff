@@ -8,8 +8,7 @@ known Bugs:
 	- Loops sometimes go crazy
 
 ToDo:
-	- parse the command line arguments correctly
-	- add support for more input ways (via file and pipe)
+	- add support for more input ways (via pipe)
 	- bugfixing
 
 -----------------------------------------------------------------------------
@@ -23,6 +22,7 @@ Phillip Thelen
 
 import sys
 import argparse
+import os.path
 
 class Pythonfuck():
 
@@ -66,17 +66,24 @@ class Pythonfuck():
 		self.field = [0, ]
 
 		parser = argparse.ArgumentParser(description='Input some valid Brainfuck code.')
-		parser.add_argument('code', metavar='B', type=str,
+		parser.add_argument('--bf', '-b', type=str, dest='bfcode',
 					help='The Brainfuck code that should be interpreted')
-		parser.add_argument('-i', dest='mode', action='store_const',
-					const=self.runInteractive, default=self.runCode,
-					help='Switch to interactive mode (instead of interpreting the given brainfuck code and then exiting)')
-		parser.add_argument('-d', dest='debug', action='store_const',
+		parser.add_argument('--interactive', '-i', dest='mode', action='store_const',
+					const=self.runInteractive, default=self.runInteractive,
+					help='Select interactive mode (default when nothing is supplied)')
+		parser.add_argument('--debug', '-d', dest='debug', action='store_const',
 					const=True, default=False,
 					help='activate debug mode')
+		parser.add_argument('--file', '-f', dest='filename',
+					help='supply a file name')
 		args = parser.parse_args()
 		self.debug = args.debug
-		args.mode(args.code)
+		if args.bfcode != None:
+			self.runCode(args.bfcode)
+		if args.filename != None:
+			if os.path.isfile(args.filename):
+				f = open(args.filename)
+				self.runCode(f.read())
 
 	def incrPointer(self, code):
 		if len(self.field)-1 <= self.pointer:
