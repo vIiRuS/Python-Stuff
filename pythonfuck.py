@@ -35,6 +35,7 @@ class Pythonfuck():
 				break
 
 	def runCode(self, code):
+		print "Code to be executed: ", code
 		for self.i, char in enumerate(code):
 			if self.debug:
 				print "Pointer: ", self.pointer, "   Command: ", char, "    Position: ", self.i
@@ -135,27 +136,29 @@ class Pythonfuck():
 		loopcount = 0
 		loopcounter = 0
 		loopcode = ""
+		i = self.i
 		if self.field[self.pointer] != 0:
 			if self.debug:
 				print "execute loop again"
 			while True:
 				loopcounter += 1
-				loopcode += code[self.i-loopcounter]
-				if code[self.i-loopcounter] == "[" and loopcount == 0:
-					self.runCode(loopcode[1::-1])
+				loopcode += code[i-loopcounter]
+				if code[i-loopcounter] == "[" and loopcount == 0:
+					self.runCode(loopcode[:])
 					loopcode == ""
 					loopcount = 0
 					loopcounter = 0
 					if self.field[self.pointer] == 0:
 						break
-
+				
 				if code[self.i-loopcounter] == "]":
 					loopcount += 1
 				elif code[self.i-loopcounter] == "[": 
 					loopcount -= 1
 				
 				if self.debug:
-					print "###", self.i-loopcounter, code[self.i-loopcounter], loopcount
+					print "###", i-loopcounter, code[self.i-loopcounter], loopcount, self.pointer
+					print self.field
 			
 				
 
