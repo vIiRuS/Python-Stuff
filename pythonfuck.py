@@ -1,8 +1,16 @@
 #!/usr/bin/env python
 
 """
-A script to check the diff betweet the followers of two users
+A simple interpreter for the brainfuck programming language.
 
+known Bugs:
+	- wrong end sequence for input (I don't even know it)
+	- Loops sometimes go crazy
+
+ToDo:
+	- parse the command line arguments correctly
+	- add support for more input ways (via file and pipe)
+	- bugfixing
 
 -----------------------------------------------------------------------------
 "THE NERD-WARE LICENSE" (Revision 1):
