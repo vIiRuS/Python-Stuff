@@ -4,8 +4,7 @@
 A simple interpreter for the brainfuck programming language.
 
 known Bugs:
-	- wrong end sequence for input (I don't even know it)
-	- Loops sometimes go crazy
+	- you can only input one character at a time
 
 ToDo:
 	- add support for more input ways (via pipe)
@@ -33,6 +32,7 @@ class Pythonfuck():
 				self.pointer = 0
 				self.field = [0, ]
 				self.runCode(code)
+				print ""
 			else:
 				print "Quit signal emitted. Closing down."
 				break
@@ -93,10 +93,7 @@ class Pythonfuck():
 		self.pointer += 1
 	
 	def decrPointer(self, code):
-		if self.pointer > 0:
-			self.pointer -= 1
-		else:
-			print "ERROR: You can't have a negative pointer"
+		self.pointer -= 1
 	
 	def incrValue(self, code):
 		self.field[self.pointer] += 1
@@ -134,7 +131,7 @@ class Pythonfuck():
 	def bEndWhile(self, code):
 		loopcount = 0
 		loopcounter = 0
-		loopcode = "]"
+		loopcode = ""
 		if self.field[self.pointer] != 0:
 			if self.debug:
 				print "execute loop again"
@@ -142,7 +139,12 @@ class Pythonfuck():
 				loopcounter += 1
 				loopcode += code[self.i-loopcounter]
 				if code[self.i-loopcounter] == "[" and loopcount == 0:
-					break
+					self.runCode(loopcode[1::-1])
+					loopcode == ""
+					loopcount = 0
+					loopcounter = 0
+					if self.field[self.pointer] == 0:
+						break
 
 				if code[self.i-loopcounter] == "]":
 					loopcount += 1
@@ -151,7 +153,7 @@ class Pythonfuck():
 				
 				if self.debug:
 					print "###", self.i-loopcounter, code[self.i-loopcounter], loopcount
-			self.runCode(loopcode[::-1])
+			
 				
 
 if __name__ == '__main__':
