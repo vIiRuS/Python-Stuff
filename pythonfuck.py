@@ -35,15 +35,20 @@ class Pythonfuck():
 				break
 
 	def runCode(self, code):
-		for self.i, char in enumerate(code):
+		if self.debug == True:
+			print "executed code: ", code
+		self.i = 0
+		while self.i < len(code):
 			if self.debug:
-				print "Pointer: ", self.pointer, "   Command: ", char, "    Position: ", self.i
+				print "Pointer: ", self.pointer, "   Command: ", code[self.i], "    Position: ", self.i
 				print "Datafield: ", self.field
 			try:
-				self.brainfuck[char](code)
+				self.brainfuck[code[self.i]](code)
+				self.i += 1
 				if self.debug:
 					print ""
 			except KeyError:
+				self.i += 1
 				continue
 		
 	def __init__(self):
@@ -94,10 +99,16 @@ class Pythonfuck():
 		self.pointer -= 1
 	
 	def incrValue(self, code):
-		self.field[self.pointer] += 1
+		if self.field[self.pointer] == 255:
+			self.field[self.pointer] = 0
+		else:
+			self.field[self.pointer] += 1
 	
 	def decrValue(self, code):
-		self.field[self.pointer] -= 1
+		if self.field[self.pointer] == 0:
+			self.field[self.pointer] = 255
+		else:
+			self.field[self.pointer] -= 1
 	
 	def printChar(self, code):
 		if self.debug:
@@ -117,12 +128,11 @@ class Pythonfuck():
 	
 	def bWhile(self, code):
 		loopcount = 0
-		loopcounter = 0
 		if self.field[self.pointer] == 0:
 			if self.debug:
 				print "ignore loop"
-			while code[self.i + loopcounter] != "]" and loopcount == 0:
-				loopcounter += 1
+			while code[self.i] != "]" and loopcount == 0:
+				self.i += 1
 				if code[self.i] == "[":
 					loopcount += 1
 				elif code[self.i] == "]": 
@@ -131,29 +141,17 @@ class Pythonfuck():
 	
 	def bEndWhile(self, code):
 		loopcount = 0
-		loopcounter = 0
-		loopcode = ""
 		if self.field[self.pointer] != 0:
 			if self.debug:
 				print "execute loop again"
-			while True:
-				loopcounter += 1
-				loopcode += code[self.i-loopcounter]
-				if code[self.i-loopcounter] == "[" and loopcount == 0:
-					self.runCode(loopcode[1::-1])
-					loopcode == ""
-					loopcount = 0
-					loopcounter = 0
-					if self.field[self.pointer] == 0:
-						break
-
-				if code[self.i-loopcounter] == "]":
+			self.i  -= 1
+			while code[self.i] != "]" and loopcount == 0:
+				self.i -= 1
+				if code[self.i] == "[":
 					loopcount += 1
-				elif code[self.i-loopcounter] == "[": 
+				elif code[self.i] == "]": 
 					loopcount -= 1
 				
-				if self.debug:
-					print "###", self.i-loopcounter, code[self.i-loopcounter], loopcount
 			
 				
 
