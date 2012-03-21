@@ -1,0 +1,1 @@
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=viirus&url=https://github.com/vIiRuS/Indexpy&title=Index.py&language=de_DE&tags=github&category=software)
