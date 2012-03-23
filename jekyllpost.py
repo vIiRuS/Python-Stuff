@@ -41,7 +41,7 @@ class Index():
 			f.write(entry)
 			f.close()
 			os.system("cd" + jekyllpath + " && jekyll")
-			print "<h1 style='color:red;'>Beitrag wurde erfolgreich gepostet</h1>"
+			print "<h1 style='color:red;'>Entry was posted successfully</h1>"
 
 		self.printHead()
 		self.printForm()
@@ -52,14 +52,14 @@ class Index():
 		print """
 			<DOCTYPE! html>
 			<head>
-				<title>Neuen Beitrag verfassen</title>
+				<title>Create a new entry</title>
 			</head>
 			<body>"""
 			
 
 	def printForm(self):
 		print """
-		<h2>Neuen Beitrag verfassen</h2>
+		<h2>Create a new entry</h2>
 			<form action="jekyllpost.py" method="post">
 				<fieldset>
 					<textarea name="entry" cols="50" rows="10">
@@ -68,8 +68,8 @@ layout: post
 title: 
 ---
 </textarea>
-					<Button class="btn btn-primary" type="submit" name="save" value="1">Posten</button>
-					<button class="btn">Abbrechen</button>
+					<Button class="btn btn-primary" type="submit" name="save" value="1">Post</button>
+					<button class="btn">Cancel</button>
 				</fieldset>
 			</form>"""
 
