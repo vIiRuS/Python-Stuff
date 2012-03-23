@@ -59,7 +59,7 @@ class Index():
 
 	def printForm(self):
 		print """
-		<h2>Create a new Post</h2>
+		<h2>Create a new entry</h2>
 			<form action="jekyllpost.py" method="post">
 				<fieldset>
 					<textarea name="entry" cols="50" rows="10">
